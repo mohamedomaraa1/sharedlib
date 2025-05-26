@@ -29,13 +29,9 @@ def buildJava(){
     env.PATH = "${javaHome}/bin:${env.PATH}"
 
     dir('java') {
-        sh 'echo "📦 Running Maven build with JAVA_HOME=${JAVA_HOME}"'
+        sh 'echo "📦 Running Maven build..."'
         sh 'mvn clean package -DskipTests'
+        sh 'echo "🐳 Building Docker image..."'
         sh 'docker build -t mohamedomaraa/java:latest .'
     }
 }
-
-
-
-
-
