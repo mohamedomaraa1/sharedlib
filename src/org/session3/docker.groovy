@@ -21,6 +21,6 @@ def gitClone(String repoUrl, String branch = 'main', String targetDir = '.') {
 def buildJava(){
     dir('java') {
         sh "mvn clean package -DskipTests"
-        sh "docker build -t mohamedomaraa/java-app:latest ."
+        sh "docker build -t mohamedomaraa/java:latest ."
     }
 }
