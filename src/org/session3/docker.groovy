@@ -13,5 +13,14 @@ def push(IMAGE_NAME, IMAGE_TAG){
 }
 
 def gitClone(String repoUrl, String branch = 'main', String targetDir = '.') {
-    sh "git clone --branch ${branch} ${repoUrl} ${targetDir}"
+    sh "rm -rf ${targetDir}"
+    sh "git clone --branch ${branch} ${repoUrl} ${targetDir}"
+}
+
+// build the Java app Docker image due to issue in the building
+def buildJava(){
+    dir('java') {
+        sh "mvn clean package -DskipTests"
+        sh "docker build -t oelghareeb/java-app:latest ."
+    }
 }
