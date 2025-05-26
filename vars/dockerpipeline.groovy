@@ -33,7 +33,7 @@ def call() {
             stage('Clone Repositories') {
                 steps {
                     sh '''
-                        git clone -b master https://github.com/mohamedomaraa/java.git java
+                        git clone -b master https://github.com/mohamedomaraa1/java.git java
                         git clone -b main https://github.com/mohamedomaraa1/pytohn1.git python
                     '''
                 }
