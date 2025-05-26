@@ -23,15 +23,17 @@ def gitClone(String repoUrl, String branch = 'main', String targetDir = '.') {
 //         sh "mvn clean package -DskipTests"
 //         sh "docker build -t mohamedomaraa/java:latest ."
 //     }
-def buildJava(){
+def buildJava() {
     def javaHome = tool name: 'java-8', type: 'jdk'
-    env.JAVA_HOME = javaHome
-    env.PATH = "${javaHome}/bin:${env.PATH}"
+    def javaPath = "${javaHome}/bin:${env.PATH}"
 
     dir('java') {
-        sh 'echo "📦 Running Maven build..."'
-        sh 'mvn clean package -DskipTests'
-        sh 'echo "🐳 Building Docker image..."'
-        sh 'docker build -t mohamedomaraa/java:latest .'
+        withEnv(["JAVA_HOME=${javaHome}", "PATH=${javaPath}"]) {
+            sh 'echo "JAVA_HOME is $JAVA_HOME"'
+            sh 'java -version'
+            sh 'mvn -version'
+            sh 'mvn clean package -DskipTests'
+            sh 'docker build -t mohamedomaraa/java:latest .'
+        }
     }
 }
