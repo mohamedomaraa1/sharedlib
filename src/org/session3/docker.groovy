@@ -18,9 +18,24 @@ def gitClone(String repoUrl, String branch = 'main', String targetDir = '.') {
 }
 
 // build the Java app Docker image due to issue in the building
+// def buildJava(){
+//     dir('java') {
+//         sh "mvn clean package -DskipTests"
+//         sh "docker build -t mohamedomaraa/java:latest ."
+//     }
 def buildJava(){
     dir('java') {
+        sh 'echo "📁 Contents of java directory:"'
+        sh 'ls -lah'
+        sh 'echo "📦 Running Maven build..."'
         sh "mvn clean package -DskipTests"
+        sh 'echo "📦 Listing contents after build:"'
+        sh 'ls -lh target || true'
+        sh 'echo "🐳 Building Docker image..."'
         sh "docker build -t mohamedomaraa/java:latest ."
     }
 }
+
+
+
+
