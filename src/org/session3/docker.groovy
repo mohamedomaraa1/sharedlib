@@ -18,22 +18,11 @@ def gitClone(String repoUrl, String branch = 'main', String targetDir = '.') {
 }
 
 // build the Java app Docker image due to issue in the building
-// def buildJava(){
-//     dir('java') {
-//         sh "mvn clean package -DskipTests"
-//         sh "docker build -t mohamedomaraa/java:latest ."
-//     }
-def buildJava() {
-    def javaHome = tool name: 'java-8', type: 'jdk'
-    def javaPath = "${javaHome}/bin:${env.PATH}"
-
+def buildJava(){
     dir('java') {
-        withEnv(["JAVA_HOME=${javaHome}", "PATH=${javaPath}"]) {
-            sh 'echo "JAVA_HOME is $JAVA_HOME"'
-            sh 'java -version'
-            sh 'mvn -version'
-            sh 'mvn clean package -DskipTests'
-            sh 'docker build -t mohamedomaraa/java:latest .'
-        }
+        // Build the jar using Maven
+        sh "mvn clean package -DskipTests"
+        // Now build the docker image, with current dir as context so Docker can find target/demo1-0.0.1-SNAPSHOT.jar
+        sh "docker build -t mohamedomaraa/java-app:latest ."
     }
 }
